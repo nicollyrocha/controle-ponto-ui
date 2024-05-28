@@ -8,6 +8,8 @@ import { TimeControl } from '../services/timeControl/timeControl';
 import { Loading } from '../components/loading';
 import { useParams } from 'react-router-dom';
 import { userHasHoursToday } from '../functions/userHasHoursToday';
+import { formatDate } from '../functions/formatDate';
+import { formatDateToday } from '../functions/formatDateToday';
 
 export const MainPage = () => {
 	const {
@@ -37,19 +39,9 @@ export const MainPage = () => {
 	const currDayUnfinished =
 		timeControlByUser && timeControlByUser.length > 0
 			? timeControlByUser.filter((day) => {
-					const date =
-						new Date(day.starttime).getDay() +
-						'/' +
-						new Date(day.starttime).getMonth() +
-						'/' +
-						new Date(day.starttime).getFullYear();
-					const dateToday =
-						new Date().getDay() +
-						'/' +
-						new Date().getMonth() +
-						'/' +
-						new Date().getFullYear();
-					return date === dateToday && day.endtime === null;
+					return (
+						formatDate(day) === formatDateToday(new Date()) && day.endtime === null
+					);
 			  })
 			: [];
 
@@ -64,7 +56,6 @@ export const MainPage = () => {
 				userid: codUser,
 				starttime: new Date(date.getTime() - date.getTimezoneOffset() * 60000),
 			}).then((res) => {
-				console.log(res);
 				if (res.body.status === 200) {
 					timeControlByUser.push(res.body.timeControl);
 					setIdTimeControl(res.body.timeControl.id);
@@ -93,12 +84,7 @@ export const MainPage = () => {
 			});
 		}
 	};
-	const today =
-		new Date().getDay() +
-		'/' +
-		new Date().getMonth() +
-		'/' +
-		new Date().getFullYear();
+	const today = formatDateToday(new Date());
 
 	return (
 		<div className='flex justify-center pt-20'>

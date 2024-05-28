@@ -1,4 +1,6 @@
 import { ITimeControl } from '../models/timeControl';
+import { formatDate } from './formatDate';
+import { formatDateToday } from './formatDateToday';
 
 /** Recebe todos os registros de ponto, faz um filter para ver se tem starttime e endtime do dia atual e retorna se o usário tem ponto no dia.  */
 export const userHasHoursToday = (
@@ -7,13 +9,11 @@ export const userHasHoursToday = (
 ) => {
 	if (timeControlByUser && timeControlByUser.length > 0) {
 		const currDay = timeControlByUser.filter((time) => {
-			const date =
-				new Date(time.starttime).getDay() +
-				'/' +
-				new Date(time.starttime).getMonth() +
-				'/' +
-				new Date(time.starttime).getFullYear();
-			return time.starttime && time.endtime && dateToday === date;
+			return (
+				time.starttime &&
+				time.endtime &&
+				formatDateToday(new Date()) === formatDate(time)
+			);
 		});
 
 		if (currDay.length > 0) {

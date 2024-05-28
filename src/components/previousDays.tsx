@@ -1,3 +1,4 @@
+import { formatDate } from '../functions/formatDate';
 import { useContextProject } from '../context';
 import { totalHoursDay } from '../functions/totalHoursDay';
 import { HoursMiniCard } from './hoursMiniCard';
@@ -16,7 +17,7 @@ export const PreviousDays = () => {
 								return (
 									<HoursMiniCard key={t.id}>
 										<div className='text-white flex justify-between w-full'>
-											<div>{new Date(t.starttime).toLocaleDateString('pt-BR')}</div>
+											<div>{formatDate(t)}</div>
 											<div className='font-semibold'>
 												{totalHoursDay(t.starttime, t.endtime || new Date())}
 											</div>

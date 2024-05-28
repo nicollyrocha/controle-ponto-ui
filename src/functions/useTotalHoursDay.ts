@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ITimeControl } from '../models/timeControl';
+import moment from 'moment';
 
 export const useTotalHoursDay = (
 	timeControlByUser: ITimeControl | null,
@@ -14,9 +15,20 @@ export const useTotalHoursDay = (
 				timeControlByUser.endtime &&
 				timeControlByUser.starttime
 			) {
+				const timezoneOffsetStart =
+					new Date(timeControlByUser.starttime).getTimezoneOffset() * 60000;
+
+				const dateInLocalTimeStart = new Date(
+					new Date(timeControlByUser.starttime).getTime() + timezoneOffsetStart
+				);
+				const timezoneOffsetEnd =
+					new Date(timeControlByUser.endtime).getTimezoneOffset() * 60000;
+
+				const dateInLocalTimeEnd = new Date(
+					new Date(timeControlByUser.endtime).getTime() + timezoneOffsetEnd
+				);
 				const diffInMilliseconds = Math.abs(
-					new Date(timeControlByUser.endtime).getTime() -
-						new Date(timeControlByUser.starttime).getTime()
+					dateInLocalTimeEnd.getTime() - dateInLocalTimeStart.getTime()
 				);
 				const diffInHours = Math.floor(diffInMilliseconds / (1000 * 60 * 60));
 				const diffInMinutes = Math.floor(
@@ -28,8 +40,14 @@ export const useTotalHoursDay = (
 				!timeControlByUser.endtime &&
 				timeControlByUser.starttime
 			) {
+				const timezoneOffset =
+					new Date(timeControlByUser.starttime).getTimezoneOffset() * 60000;
+
+				const dateInLocalTime = new Date(
+					new Date(timeControlByUser.starttime).getTime() + timezoneOffset
+				);
 				const diffInMilliseconds = Math.abs(
-					new Date().getTime() - new Date(timeControlByUser.starttime).getTime()
+					new Date().getTime() - new Date(dateInLocalTime).getTime()
 				);
 				const diffInHours = Math.floor(diffInMilliseconds / (1000 * 60 * 60));
 				const diffInMinutes = Math.floor(
