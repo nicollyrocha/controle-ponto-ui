@@ -24,6 +24,18 @@ export const MainPage = () => {
 	const { id, timeControlId } = useParams();
 	const navigate = useNavigate();
 
+	const currDayUnfinished =
+		timeControlByUser && timeControlByUser.length > 0
+			? timeControlByUser.filter((day) => {
+					return (
+						formatDate(day) === formatDateToday(new Date()) && day.endtime === null
+					);
+			  })
+			: [];
+
+	const labelButton =
+		currDayUnfinished.length === 0 ? 'Hora de Entrada' : 'Hora de Saida';
+
 	useEffect(() => {
 		if (id) {
 			setCodUser(id);
@@ -38,17 +50,12 @@ export const MainPage = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [id]);
 
-	const currDayUnfinished =
-		timeControlByUser && timeControlByUser.length > 0
-			? timeControlByUser.filter((day) => {
-					return (
-						formatDate(day) === formatDateToday(new Date()) && day.endtime === null
-					);
-			  })
-			: [];
-
-	const labelButton =
-		currDayUnfinished.length === 0 ? 'Hora de Entrada' : 'Hora de Saida';
+	useEffect(() => {
+		if (currDayUnfinished) {
+			setIdTimeControl(currDayUnfinished[0].id?.toString() || '');
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [currDayUnfinished]);
 
 	const onClickSetTime = () => {
 		const date = new Date();
