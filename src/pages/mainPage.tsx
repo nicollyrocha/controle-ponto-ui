@@ -64,6 +64,7 @@ export const MainPage = () => {
 				userid: codUser,
 				starttime: new Date(date.getTime() - date.getTimezoneOffset() * 60000),
 			}).then((res) => {
+				console.log(res);
 				if (res.body.status === 200) {
 					timeControlByUser.push(res.body.timeControl);
 					setIdTimeControl(res.body.timeControl.id);

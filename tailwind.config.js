@@ -5,4 +5,9 @@ module.exports = {
 		extend: {},
 	},
 	plugins: [],
+	include: ['src/**/*'],
+	exclude: ['node_modules'],
+	compilerOptions: {
+		baseUrl: 'src/',
+	},
 };
