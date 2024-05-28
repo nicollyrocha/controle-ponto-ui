@@ -52,7 +52,9 @@ export const MainPage = () => {
 
 	useEffect(() => {
 		if (currDayUnfinished) {
-			setIdTimeControl(currDayUnfinished[0].id?.toString() || '');
+			setIdTimeControl(
+				(currDayUnfinished.length > 0 && currDayUnfinished[0].id?.toString()) || ''
+			);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [currDayUnfinished]);
