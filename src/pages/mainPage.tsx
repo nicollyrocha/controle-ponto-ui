@@ -68,6 +68,7 @@ export const MainPage = () => {
 				}
 			});
 		} else {
+			console.log(timeControlId);
 			TimeControl.updateTimeControl(
 				{
 					...currDayUnfinished[0],
@@ -76,7 +77,7 @@ export const MainPage = () => {
 					),
 				},
 
-				timeControlId || ''
+				idTimeControl || ''
 			).then((res) => {
 				if (res.body.status === 200) {
 					setTimeout(() => {
