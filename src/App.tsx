@@ -10,7 +10,7 @@ function App() {
 			<BrowserRouter>
 				<Routes>
 					<Route path='/' element={<Login />} />
-					<Route path='/user/:id' element={<MainPage />} />
+					<Route path='/user/:id/:timeControlId?' element={<MainPage />} />
 				</Routes>
 			</BrowserRouter>
 		</ContextProvider>

@@ -6,7 +6,7 @@ import { PreviousDays } from '../components/previousDays';
 import { useContextProject } from '../context';
 import { TimeControl } from '../services/timeControl/timeControl';
 import { Loading } from '../components/loading';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { userHasHoursToday } from '../functions/userHasHoursToday';
 import { formatDate } from '../functions/formatDate';
 import { formatDateToday } from '../functions/formatDateToday';
@@ -18,9 +18,11 @@ export const MainPage = () => {
 		setTimeControlByUser,
 		setCodUser,
 		setIdTimeControl,
+		idTimeControl,
 	} = useContextProject();
 	const [isLoading, setIsLoading] = useState(false);
-	const { id } = useParams();
+	const { id, timeControlId } = useParams();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (id) {
@@ -73,12 +75,14 @@ export const MainPage = () => {
 						new Date().getTime() - new Date().getTimezoneOffset() * 60000
 					),
 				},
-				localStorage.getItem('idTimeControl') || ''
+
+				timeControlId || ''
 			).then((res) => {
 				if (res.body.status === 200) {
 					setTimeout(() => {
 						setIsLoading(false);
 						setTimeControlByUser(res.body.body);
+						navigate(`/user/${codUser}/${idTimeControl}`);
 					}, 1000);
 				}
 			});

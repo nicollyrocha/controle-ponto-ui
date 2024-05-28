@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { ITimeControl } from '../models/timeControl';
-import moment from 'moment';
 
 export const useTotalHoursDay = (
 	timeControlByUser: ITimeControl | null,
