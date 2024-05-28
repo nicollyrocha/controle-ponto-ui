@@ -21,7 +21,7 @@ export const MainPage = () => {
 		idTimeControl,
 	} = useContextProject();
 	const [isLoading, setIsLoading] = useState(false);
-	const { id, timeControlId } = useParams();
+	const { id } = useParams();
 	const navigate = useNavigate();
 
 	const currDayUnfinished =
@@ -77,7 +77,6 @@ export const MainPage = () => {
 				}
 			});
 		} else {
-			console.log(timeControlId);
 			TimeControl.updateTimeControl(
 				{
 					...currDayUnfinished[0],
@@ -92,7 +91,6 @@ export const MainPage = () => {
 					setTimeout(() => {
 						setIsLoading(false);
 						setTimeControlByUser(res.body.body);
-						navigate(`/user/${codUser}/${idTimeControl}`);
 					}, 1000);
 				}
 			});
