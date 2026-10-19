@@ -6,7 +6,7 @@ import { PreviousDays } from '../components/previousDays';
 import { useContextProject } from '../context';
 import { TimeControl } from '../services/timeControl/timeControl';
 import { Loading } from '../components/loading';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { userHasHoursToday } from '../functions/userHasHoursToday';
 import { formatDate } from '../functions/formatDate';
 import { formatDateToday } from '../functions/formatDateToday';
@@ -22,7 +22,6 @@ export const MainPage = () => {
 	} = useContextProject();
 	const [isLoading, setIsLoading] = useState(false);
 	const { id } = useParams();
-	const navigate = useNavigate();
 
 	const currDayUnfinished =
 		timeControlByUser && timeControlByUser.length > 0
@@ -62,6 +61,11 @@ export const MainPage = () => {
 	const onClickSetTime = () => {
 		const date = new Date();
 		setIsLoading(true);
+		const onError = (err: unknown) => {
+			console.log(err);
+			setIsLoading(false);
+			alert('Não foi possível registrar o ponto. Tente novamente em instantes.');
+		};
 		if (currDayUnfinished.length === 0 || !currDayUnfinished) {
 			TimeControl.postTimeControl({
 				userid: codUser,
@@ -75,7 +79,7 @@ export const MainPage = () => {
 						setIsLoading(false);
 					}, 1000);
 				}
-			});
+			}).catch(onError);
 		} else {
 			TimeControl.updateTimeControl(
 				{
@@ -93,7 +97,7 @@ export const MainPage = () => {
 						setTimeControlByUser(res.body.body);
 					}, 1000);
 				}
-			});
+			}).catch(onError);
 		}
 	};
 	const today = formatDateToday(new Date());

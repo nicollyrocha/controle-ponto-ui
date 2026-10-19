@@ -20,14 +20,14 @@ export const _useController = () => {
 	};
 };
 
-const _Controller = createContext({} as ReturnType<typeof _useController>);
+const Controller = createContext({} as ReturnType<typeof _useController>);
 
-export const useContextProject = () => useContext(_Controller);
+export const useContextProject = () => useContext(Controller);
 
 export const ContextProvider: React.FC<Props> = ({ children }) => {
 	const controller = _useController();
 
 	return (
-		<_Controller.Provider value={controller}>{children}</_Controller.Provider>
+		<Controller.Provider value={controller}>{children}</Controller.Provider>
 	);
 };
